@@ -1,4 +1,4 @@
-/*doubly linked list full op*/
+/*doubly link list full op*/
 #include <stdio.h>
 #include <stdlib.h>
 struct node

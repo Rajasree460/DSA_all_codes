@@ -1,241 +1,212 @@
-/*linked list full operation*/
+/*link list full op*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node
 {
 	int data;
-	struct node*link;
+	struct node *next;
 };
-struct node*header;
-struct node*create_ll(struct node*);
-struct node*display(struct node*);
-struct node*insert_beg(struct node*);
-struct node*insert_end(struct node*);
-struct node*insert_any(struct node*);
-struct node*delete_beg(struct node*);
-struct node*delete_end(struct node*);
-struct node*delete_any(struct node*);
+struct node*head;
+void beginsert();
+void lastinsert();
+void randominsert();
+void begin_delete();
+void last_delete();
+void random_delete();
 void search();
-struct node*sort_list(struct node*);
+void display();
 int main()
 {
 	int choice=0;
-	while(choice!=11)
+	while(choice!=9)
 	{
 		printf("**main menu**\n");
-		printf("1.create list\n2.display the list\n3.insert at the begining\n4.insert at the end\n5.insert at any position\n6.delete from the begining\n7.delete from the end\n8.delete from any position\n9.search\n10.sort the list\n11.exit\n");
+		printf("choose one option from the following list...\n");
+		printf("1.insert in begining\n2.insert at last\n3.insert at any random location\n4.delete from the begining\n5.delete from the last\n6.delete node after specefide location\n7.search for an element\n8.show\n9.exit\n");
 		printf("enter your choice\n");
 		scanf("%d",&choice);
 		switch(choice)
 		{
-			case 1:header=create_ll(header);
+			case 1:beginsert();
 			break;
-			case 2:header=display(header);
+			case 2:lastinsert();
 			break;
-			case 3:header=insert_beg(header);
+			case 3:randominsert();
 			break;
-			case 4:header=insert_end(header);
+			case 4:begin_delete();
 			break;
-			case 5:header=insert_any(header);
+			case 5:last_delete();
 			break;
-			case 6:header=delete_beg(header);
+			case 6:random_delete();
 			break;
-			case 7:delete_end(header);
+			case 7:search();
 			break;
-			case 8:delete_any(header);
+			case 8:display();
 			break;
-			case 9:search();
+			case 9:exit(0);
 			break;
-			case 10:header=sort_list(header);
-			break;
-			case 11:exit(0);
 			default:
 				printf("invalid choice\n");
 		}
 	}
 }
-struct node*create_ll(struct node*header)
+void beginsert()
 {
-	struct node*new_node,*ptr;
+	struct node*ptr;
 	int item;
-	printf("enter -1 to end\n");
-	printf("enter the data: \n");
-	scanf("%d",&item);
-	while(item!=-1)
+	ptr=(struct node*)malloc(sizeof(struct node*));
+	if(ptr==NULL)
 	{
-		new_node=(struct node*)malloc(sizeof(struct node*));
-		new_node->data=item;
-		if(header==NULL)        //list is empty
+		printf("OVERFLOW\n");
+	}
+	else
+	{
+		printf("enter value\n");
+		scanf("%d",&item);
+		ptr->data=item;
+		ptr->next=head;
+		head=ptr;
+		printf("node inserted\n");
+	}
+}
+void lastinsert()
+{
+	struct node*ptr,*temp;
+	int item;
+	ptr=(struct node*)malloc(sizeof(struct node*));
+	if(ptr==NULL)
+	{
+			printf("OVERFLOW\n");
+	}
+	else
+	{
+		printf("enter value\n");
+		scanf("%d",&item);
+		ptr->data=item;
+		if(head==NULL) //for one node
 		{
-			new_node->link=NULL;
-			header=new_node;
+			ptr->next=NULL;
+			head=ptr;
+			printf("node inserted\n");
 		}
 		else
 		{
-			ptr=header;
-			while(ptr->link!=NULL)
+			temp=head; //for many nodes
+			while(temp->next!=NULL)
 			{
-				ptr=ptr->link;
-		    }
-				ptr->link=new_node;
-				new_node->link=NULL;
+				temp=temp->next;
+			}
+			temp->next=ptr;
+			ptr->next=NULL;
+			printf("node inserted\n");
 		}
-		printf("enter the data: \n");
-		scanf("%d",&item);
-	}
-	printf("link list is created\n");
-	return header;
-}
-struct node*display(struct node*header)
-{
-	printf("the linked list is below\n");
-	struct node*ptr;
-	ptr=header;
-	while(ptr!=NULL)         //list is not empty
-	{
-		printf("%d\n",ptr->data);
-		ptr=ptr->link;
-    }
-    return header;
-}
-struct node*insert_beg(struct node*header)
-{
-	struct node*new_node;
-	int item;
-	if(header==NULL)
-	{
-		printf("overflow:insertion not possible\n");       //memory bank returns NULL
-	}
-	else
-	{
-		printf("enter the data to be inserted: \n");
-	    scanf("%d",&item);
-		new_node=(struct node*)malloc(sizeof(struct node*));
-		new_node->data=item;
-		new_node->link=header;
-		header=new_node;
-		printf("node inserted at the begining\n");
-		return header;
 	}
 }
-struct node*insert_end(struct node*header)
+void randominsert()
 {
-	struct node*new_node,*ptr;
-	int item;
-	if(header==NULL)
-	{
-		printf("overflow:insertion not possible\n");       //memory bank returns NULL
-	}
-	else
-	{
-		printf("enter the data to be inserted: \n");
-	    scanf("%d",&item);
-		new_node=(struct node*)malloc(sizeof(struct node*));
-		new_node->data=item;
-		new_node->link=NULL;
-		ptr=header;
-		while(ptr->link!=NULL)
-		{
-			ptr=ptr->link;
-		}
-		ptr->link=new_node;
-		printf("node inserted at the end\n");
-		return header;
-	}
-}
-struct node*insert_any(struct node*header)
-{
-	struct node*new_node,*ptr;
-	int loc,i,item;
-	if(header==NULL)
-	{
-		printf("overflow:insertion not possible\n");       //memory bank returns NULL
-	}
-	else
-	{
-		printf("enter the location after which the node has to be inserted\n");
-	    scanf("%d",&loc);
-	    printf("enter the data to be inserted: \n");
-	    scanf("%d",&item);
-		new_node=(struct node*)malloc(sizeof(struct node*));
-		new_node->data=item;
-		ptr=header;
-		for(i=0;i<loc;i++)    //the linked list is started from 0th index here
-		{
-			ptr=ptr->link;
-		}
-		new_node->link=ptr->link;
-		ptr->link=new_node;
-		printf("node inserted at specific position\n");
-		return header;
-	}
-}
-struct node*delete_beg(struct node*header)
-{
-	struct node*ptr;
-	if(header==NULL)
-	{
-		printf("deletion not possible\n");       //list is empty
-	}
-	else
-	{
-		ptr=header;
-		header=header->link;
-		free(ptr);
-		printf("node is deleted from the begining\n");
-		return header;
-	}
-}
-struct node*delete_end(struct node*header)
-{
-	struct node*ptr,*ptr1;
-	if(header==NULL)
-	{
-		printf("deletion not possible\n");       //list is empty
-	}
-	else
-	{
-	ptr=header;
-	while(ptr->link!=NULL)
-	{
-		ptr1=ptr;
-		ptr=ptr->link;
-	}
-	ptr1->link=NULL;
-	free(ptr);
-	printf("node is deleted from the end\n");
-	return header;
-    }
-}
-struct node*delete_any(struct node*header)
-{
-	struct node*ptr,*ptr1;
 	int i,loc,item;
-	if(header==NULL)
+	struct node*ptr,*temp;
+	ptr=(struct node*)malloc(sizeof(struct node*));
+	if(ptr==NULL)
 	{
-		printf("deletion not possible\n");       //list is empty
+		printf("OVERFLOW\n");
 	}
 	else
 	{
-		printf("enter the location after which the node has to be deleted\n");
-	    scanf("%d",&loc);
-		ptr=header;
-		for(i=0;i<=loc;i++)     //the linked list is started from 0th index here
-	    {
-		ptr1=ptr;
-		ptr=ptr->link;
-	    }
-	ptr1->link=ptr->link;
-	free(ptr);
-	printf("node deleyed from specific position\n");
-	return header;
+		printf("enter element value\n");
+		scanf("%d",&item);
+		ptr->data=item;
+		printf("enter the location after which you want to insert\n");
+		scanf("%d",&loc);
+		temp=head;
+		for(i=0;i<loc;i++)
+		{
+			temp=temp->next;
+			if(temp==NULL)
+			{
+				printf("can not insert\n");
+				return ;
+			}
+		}
+		ptr->next=temp->next;
+		temp->next=ptr;
+		printf("node inserted\n");
 	}
+}
+void begin_delete()
+{
+	struct node*ptr;
+	if(head==NULL)
+	{
+		printf("list is empty\n");
+	}
+	else
+	{
+		ptr=head;
+		head=ptr->next;
+		free(ptr);
+		printf("node deleted from the begining\n");
+	}
+}
+void last_delete()
+{
+	struct node*ptr;
+	struct node*ptr1;
+	if(head==NULL)
+	{
+		printf("list is empty\n");
+	}
+	else if(head->next==NULL)
+	{
+		head=NULL;
+		free(head);
+		printf("only node of the list deleted\n");
+	}
+	else
+	{
+		
+		
+			ptr=head;
+			while(ptr->next!=NULL)
+			{
+				ptr1=ptr;
+		
+			ptr=ptr->next;
+		}
+		ptr1->next=NULL;
+		free(ptr);
+		printf("deleted node from the last...\n");
+		
+		
+	}
+}
+void random_delete()
+{
+	struct node*ptr,*ptr1;
+	int loc,i;
+	printf("enter the location of the node after which you want to perform deletion\n");
+	scanf("%d",&loc);
+	ptr=head;
+	for(i=0;i<loc;i++)
+	{
+		ptr1=ptr;
+		ptr=ptr->next;
+		if(ptr==NULL)
+		{
+			printf("can not delete\n");
+			return;
+		}
+	}
+	ptr1->next=ptr->next;
+	free(ptr);
+	printf("deleted node %d",loc+1);
 }
 void search()
 {
 	struct node*ptr;
 	int item,i=0,flag=0,loc;
-	if(header==NULL)
+	ptr=head;
+	if(ptr==NULL)
 	{
 		printf("empty list\n");
 		
@@ -243,9 +214,8 @@ void search()
 	else
 	{
 		printf("enter item which you want to search\n");
-	    scanf("%d",&item);
-		ptr=header;
-		while(ptr->link!=NULL)
+		scanf("%d",&item);
+		while(ptr!=NULL)
 		{
 			if(ptr->data==item)
 			{
@@ -258,7 +228,7 @@ void search()
 				flag=0;
 			}
 			++i;
-			ptr=ptr->link;
+			ptr=ptr->next;
 		}
 		if(flag==0)
 		{
@@ -270,27 +240,21 @@ void search()
 		}
 	}
 }
-struct node*sort_list(struct node*header)
+void display() //traversal
 {
-	struct node*ptr1,*ptr2;
-	int temp;
-	ptr1=header;
-	while(ptr1->link!=NULL)
+	struct node*ptr;
+	ptr=head;
+	if(ptr==NULL)
 	{
-		ptr2=ptr1->link;
-		while(ptr2!=NULL)       //there are atleast 2 nodes in the list
-		{
-			if(ptr1->data>ptr2->data)
-			{
-				temp=ptr1->data;
-				ptr1->data=ptr2->data;
-				ptr2->data=temp;
-			}
-			ptr2=ptr2->link;
-		}
-		ptr1=ptr1->link;
+		printf("nothing to print\n");
 	}
-	printf("list sorted\n");
-	return header;
+	else
+	{
+		printf("printing values...\n");
+		while(ptr!=NULL)
+		{
+			printf("%d\n",ptr->data);
+			ptr=ptr->next;
+		}
+	}
 }
-
