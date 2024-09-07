@@ -1,4 +1,4 @@
-/*circular ll full op*/
+/*ll insert and delete by val*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node{
@@ -14,7 +14,7 @@ struct node*insert_any(struct node*);
 struct node*delete_beg(struct node*);
 struct node*delete_end(struct node*);
 struct node*delete_any(struct node*);
-void search();
+void search(struct node*);
 struct node*sort_list(struct node*);
 int main()
 {
@@ -43,7 +43,7 @@ int main()
 	    	break;
 	    	case 8:header=delete_any(header);
 	    	break;
-	    	case 9:search();
+	    	case 9:search(header);
 	    	break;
 	    	case 10:header=sort_list(header);
 	    	break;
@@ -66,18 +66,18 @@ struct node*create_list(struct node*header)
 		new_node->data=item;
 		if(header==NULL)
 		{
-			new_node->link=new_node;
+			new_node->link=NULL;
 			header=new_node;
 		}
 		else
 		{
 			ptr=header;
-			while(ptr->link!=header)
+			while(ptr->link!=NULL)
 			{
 				ptr=ptr->link;
 			}
-			new_node->link=header;
 			ptr->link=new_node;
+			new_node->link=NULL;
 		}
 		printf("enter your data:\n");
 	scanf("%d",&item);
@@ -96,18 +96,17 @@ struct node*display(struct node*header)
 	else
 	{
 		ptr=header;
-		while(ptr->link!=header)
+		while(ptr!=NULL)
 		{
 			printf("%d\n",ptr->data);
 			ptr=ptr->link;
 		}
-		printf("%d\n",ptr->data);
-		return header;
 	}
+	return header;
 }
 struct node*insert_beg(struct node*header)
 {
-	struct node*new_node,*ptr;
+	struct node*new_node;
 	int item;
 	if(header==NULL)   //memory bank returns null
 	{
@@ -119,13 +118,7 @@ struct node*insert_beg(struct node*header)
 		scanf("%d",&item);
 		new_node=(struct node*)malloc(sizeof(struct node));
 		new_node->data=item;
-		ptr=header;
-		while(ptr->link!=header)
-		{
-			ptr=ptr->link;
-		}
 		new_node->link=header;
-		ptr->link=new_node;
 		header=new_node;
 	}
 	printf("node inserted at beg\n");
@@ -146,12 +139,12 @@ struct node*insert_end(struct node*header)
 		new_node=(struct node*)malloc(sizeof(struct node));
 		new_node->data=item;
 		ptr=header;
-		while(ptr->link!=header)
+		while(ptr->link!=NULL)
 		{
 			ptr=ptr->link;
 		}
-		new_node->link=header;
 		ptr->link=new_node;
+		new_node->link=NULL;
 	}
 	printf("node inserted at end\n");
 	return header;
@@ -159,24 +152,26 @@ struct node*insert_end(struct node*header)
 struct node*insert_any(struct node*header)
 {
 	struct node*new_node,*ptr;
-	int i,item,loc;
+	int i,item,val;
 	if(header==NULL)
 	{
 		printf("overflow:insertion not possible\n");    //memory bank returns null
 	}
 	else
 	{
-		printf("enter the location at which you want to insert the node:\n");
-		scanf("%d",&loc);
+		printf("enter the after which you want to insert the node:\n");
+		scanf("%d",&val);
 		printf("enter the data to be inserted\n");
 		scanf("%d",&item);
 		new_node=(struct node*)malloc(sizeof(struct node));
 		new_node->data=item;
 		ptr=header;
-		for(i=0;i<loc-1;i++)
-		{
-			ptr=ptr->link;
-		}
+	
+
+		while(ptr->data!=val)
+			{
+				ptr=ptr->link;
+			}
 		new_node->link=ptr->link;
 		ptr->link=new_node;
 	}
@@ -193,13 +188,8 @@ struct node*delete_beg(struct node*header)
 	else
 	{
 		ptr=header;
-		while(ptr->link!=header)
-		{
-			ptr=ptr->link;
-		}
-		ptr->link=header->link;
-		free(header);
-		header=ptr->link;
+		header=header->link;
+		free(ptr);
 	}
 	printf("node deleted from beg\n");
 	return header;
@@ -214,31 +204,32 @@ struct node*delete_end(struct node*header)
 	else
 	{
 		ptr=header;
-		while(ptr->link!=header)
+		while(ptr->link!=NULL)
 		{
 			ptr1=ptr;
-			ptr->link=ptr;
+			ptr=ptr->link;
 		}
-		ptr1->link=header;
+		ptr1->link=NULL;
 		free(ptr);
-		printf("node deleted from end\n");
-	return header;
 	}
+	printf("node deleted from end\n");
+	return header;
 }
 struct node*delete_any(struct node*header)
 {
 	struct node*ptr1,*ptr;
-	int loc,i;
+	int val,i;
 	if(header==NULL)
 	{
 		printf("empty list\n");
 	}
 	else
 	{
-		printf("enter the location after which you want to delete a node:\n");
-		scanf("%d",&loc);
+		printf("enter the value after which you want to delete a node:\n");
+		scanf("%d",&val);
 		ptr=header;
-		for(i=0;i<=loc;i++)
+		ptr1=ptr;
+		while(ptr1->data!=val)
 		{
 			ptr1=ptr;
 			ptr=ptr->link;
@@ -249,7 +240,7 @@ struct node*delete_any(struct node*header)
 	printf("node deleted from the specific position\n");
 	return header;
 }
-void search()
+void search(struct node*header)
 {
 	int loc,item,i=0,flag=0;
 	struct node*ptr;
@@ -262,12 +253,12 @@ void search()
 		printf("enter the item to be searched\n");
 		scanf("%d",&item);
 		ptr=header;
-		while(ptr->link!=header)
+		while(ptr->link!=NULL)
 		{
 			if(ptr->data==item)
 			{
 				flag=1;
-				loc=i;
+				loc=i+1;
 				break;
 			}
 			else
@@ -283,7 +274,7 @@ void search()
 		}
 		else
 		{
-			printf("element fount at loc %d",loc);
+			printf("element fount at loc %d\n",loc);
 		}
 	}
 }
@@ -298,7 +289,7 @@ struct node*sort_list(struct node*header)
 	else
 	{
 		ptr1=header;
-		while(ptr1->link!=header)
+		while(ptr1->link!=NULL)
 		{
 			ptr2=ptr1->link;
 			while(ptr2!=NULL)    //two nodes must present
@@ -317,4 +308,3 @@ struct node*sort_list(struct node*header)
 	printf("list sorted\n");
 	return header;
 }
-

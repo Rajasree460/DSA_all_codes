@@ -10,28 +10,18 @@ void push(char x)
 char pop()
 {
 	if(top==-1)
-	
-		return -1;
-	
+	return -1;
 	else
-	
-		return stack[top--];
-	
+	return stack[top--];
 }
 int priority(char x)
 {
 	if(x=='(')
-	
-		return 0;
-	
-	if(x=='+'||x=='-')
-	
-		return 1;
-	
-	if(x=='*'||x=='/')
-	
-		return 2;
-	
+	return 0;
+	else if(x=='+'||x=='-')
+	return 1;
+	else if(x=='*'||x=='/')
+	return 2;
 	return 0;
 }
 int main()
@@ -45,35 +35,26 @@ int main()
 	while(*e!='\0')
 	{
 		if(isalnum(*e))
-		
-			printf("%c",*e);
-		
-		else if(*e=='(')
-		
-			push(*e);
-		
-		else if(*e==')')
+		printf("%c",*e);
+		else if(x=='(')
+		push(*e);
+		else if(x==')')
 		{
 			while((x=pop())!='(')
-			
-				printf("%c",x);
-			
+			printf("%c",x);	
 		}
 		else
 		{
 			while(priority(stack[top])>=priority(*e))
-		
-				printf("%c",pop());
-				push(*e);
-
-		
-			
-		}
-			e++;
-	}
-	while(top!=-1)
-		{
 			printf("%c",pop());
+			push(*e);
 		}
+		e++;
+	}
+	while(top==-1)
+	{
+		printf("%c",pop());
+	}
 	return 0;
 }
+

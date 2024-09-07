@@ -1,4 +1,4 @@
-/*concatination 2 sll*/
+/*concat 2 sll*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node{
@@ -17,8 +17,8 @@ int main()
 	while(ch!=7)
 	{
 		printf("main menu\n");
-		printf("1.create 1st  list\n2.display 1st list\n3.create 2nd list\n4.display 2nd list\n5.concatinate 2 sll\n6.display merged list\n7.exit\n");
-		printf("enter your choice\n");
+		printf("1.create 1st list\n2.display 1st list\n3.create 2nd list\n4.display 2nd listl\n5.concatinate 2 lists\n6.display merged list\n7.exit\n");
+		printf("enter your ch:\n");
 		scanf("%d",&ch);
 		switch(ch)
 		{
@@ -36,7 +36,7 @@ int main()
 			break;
 			case 7:exit(0);
 			default:
-			printf("invalid ch\n");	
+				printf("invalid ch\n");
 		}
 	}
 }
@@ -45,11 +45,11 @@ struct node*create_sll(struct node*header)
 	int item;
 	struct node*new_node,*ptr;
 	printf("enter -1 to end\n");
-	printf("enter your data:\n");
+	printf("enter the data to be inserted:\n");
 	scanf("%d",&item);
 	while(item!=-1)
 	{
-		new_node=(struct node*)malloc(sizeof(struct node*));
+		new_node=(struct node*)malloc(sizeof(struct node));
 		new_node->data=item;
 		if(header==NULL)
 		{
@@ -66,7 +66,7 @@ struct node*create_sll(struct node*header)
 			ptr->link=new_node;
 			new_node->link=NULL;
 		}
-		printf("enter your data:\n");
+		printf("enter the data to be inserted:\n");
 	scanf("%d",&item);
 	}
 	printf("list created\n");
@@ -74,13 +74,20 @@ struct node*create_sll(struct node*header)
 }
 struct node*display(struct node*header)
 {
-	printf("the list is below\n");
 	struct node*ptr;
-	ptr=header;
-	while(ptr!=NULL)
+	if(header==NULL)
 	{
-		printf("%d\n",ptr->data);
-		ptr=ptr->link;
+		printf("empty list\n");
+	}
+	else
+	{
+		printf("the list is below\n");
+		ptr=header;
+		while(ptr!=NULL)
+		{
+			printf("%d\n",ptr->data);
+			ptr=ptr->link;
+		}
 	}
 	return header;
 }
@@ -94,6 +101,6 @@ struct node*concatination(struct node*header1,struct node*header2,struct node*he
 	}
 	ptr->link=header2;
 	headercon=header1;
-	printf("2 list merged\n");
+	printf("2 lists merged\n");
 	return headercon;
 }

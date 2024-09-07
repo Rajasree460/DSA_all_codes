@@ -1,4 +1,4 @@
-/*concatination 2 sll*/
+/*concatinationn of 2 sll*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node{
@@ -49,7 +49,7 @@ struct node*create_sll(struct node*header)
 	scanf("%d",&item);
 	while(item!=-1)
 	{
-		new_node=(struct node*)malloc(sizeof(struct node*));
+		new_node=(struct node*)malloc(sizeof(struct node));
 		new_node->data=item;
 		if(header==NULL)
 		{
@@ -74,15 +74,22 @@ struct node*create_sll(struct node*header)
 }
 struct node*display(struct node*header)
 {
-	printf("the list is below\n");
 	struct node*ptr;
-	ptr=header;
-	while(ptr!=NULL)
+	if(header==NULL)
+		{
+			printf("list empty\n");
+		}
+	else
 	{
-		printf("%d\n",ptr->data);
-		ptr=ptr->link;
+		printf("the list is below\n");
+		ptr=header;
+		while(ptr!=NULL)
+		{
+			printf("%d\n",ptr->data);
+			ptr=ptr->link;
+		}
 	}
-	return header;
+	return header;	
 }
 struct node*concatination(struct node*header1,struct node*header2,struct node*headercon)
 {
@@ -94,6 +101,6 @@ struct node*concatination(struct node*header1,struct node*header2,struct node*he
 	}
 	ptr->link=header2;
 	headercon=header1;
-	printf("2 list merged\n");
+	printf("2 lists concatinated\n");
 	return headercon;
 }
