@@ -124,7 +124,11 @@ void min_element(struct node*header)
 			{
 				min=ptr->data;
 			}
-			ptr=ptr->link;
+			
+			else
+			{
+				ptr=ptr->link;
+			}
 		}
 	}
 	printf("min element is:%d\n",min);

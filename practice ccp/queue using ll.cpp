@@ -1,108 +1,95 @@
-/*queue using ll*/
+/*queue using stack*/
 #include<stdio.h>
 #include<stdlib.h>
-struct queue{
-	int data;
-	struct queue*link;
-};
-struct queue*front;
-struct queue*rear;
-void insert_queue(int item);
+#define MAX 100
+int front=0;
+int rear=0;
+int queue[MAX];
+void insert_queue();
 void delete_queue();
 void display_queue();
 int main()
 {
-	int ch,item;
-while(1)
-{
-printf("**main menu**\n");
-printf("1 - insert\n");
-printf("2 -delete\n");
-printf("3 -display\n");
-printf("4 -exit\n");
-printf("enter your choice: \n");
-scanf("%d",&ch);
-switch(ch) 
-{ 
-case 1:
-printf("enter the no to be inserted in queue: \n");
-scanf("%d",&item);
-insert_queue(item); 
-break; 
-case 2: 
-delete_queue(); 
-break; 
-case 3: 
-display_queue(); 
-break; 
-case 4: 
-exit(0); 
-default: 
-printf("invalid choice\n"); 
-} 
-} 
-} 
-void insert_queue(int item){
-	struct queue*new_node;
-	if(new_node==NULL)
+	int ch;
+	while(1)
 	{
-		printf("overflow\n");
-	}
-	else
-	{
-	new_node=(struct queue*)malloc(sizeof(struct queue*));
-	new_node->data=item;
-	if(front==NULL)
-	{
-		front=new_node;
-		rear=new_node;
-		front->link=NULL;
-		rear->link=NULL;
-	}
-	else
-	{
-		while(rear->link!=NULL)
+		printf("main menu\n");
+		printf("press 1 to insert\n");
+		printf("press 2 to delete\n");
+		printf("press 3 to display\n");
+		printf("press 4 to exit\n");
+		printf("enter your choice\n");
+		scanf("%d",&ch);
+		switch(ch)
 		{
-			rear=rear->link;
+			case 1:insert_queue();
+			break;
+			case 2:delete_queue();
+			break;
+			case 3:display_queue();
+			break;
+			case 4:exit(0);
+			default:
+				printf("invalid choice\n");
 		}
-		rear->link=new_node;
-		rear=new_node;
-		rear->link=NULL;
 	}
 }
-printf("node contains item inserted\n");
+void insert_queue()
+{
+	int item;
+	if(rear==MAX)
+	{
+		printf("queue full\n");
+	}
+	else
+	{
+		if(front==0 && rear==0)
+		{
+			front=1;
+		}
+		rear++;
+		printf("enter the data to be inserted\n");
+		scanf("%d",&item);
+		queue[rear]=item;
+	}
+	printf("item inserted\n");
 }
 void delete_queue()
 {
-	struct queue*ptr;
-	if(front==NULL)
+	int x;
+	if(front==0)
 	{
-		printf("queue is empty\n");
+		printf("queue empty\n");
 	}
 	else
 	{
-		ptr=front;
-		front=front->link;
-		printf("deleted item is %d\n",ptr->data);
-		free(ptr);
+		x=queue[front];
+		if(front==rear)
+		{
+			front=0;
+			rear=0;
+			printf("the only element %d deleted\n",x);
+		}
+		else
+		{
+			front++;
+			printf("%d deleted\n",x);
+		}
 	}
-	printf("node deleted\n");
 }
 void display_queue()
 {
-	struct queue*ptr;
-	if(front==NULL)
+	int i;
+	if(front==0 && rear==0)
 	{
-		printf("queue is empty\n");
+		printf("queue empty\n");
 	}
 	else
 	{
-		ptr=front;
 		printf("the queue is below\n");
-		while(ptr!=NULL)
+		for(i=front;i<=rear;i++)
 		{
-		printf("%d\n",ptr->data);
-		ptr=ptr->link;
-	}
+			printf("%d\n",queue[i]);
+		}
 	}
 }

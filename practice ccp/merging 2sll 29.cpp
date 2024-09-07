@@ -1,35 +1,42 @@
-/*node count,min element in sll*/
+/*merge 2 sll*/
 #include<stdio.h>
 #include<stdlib.h>
 struct node{
 	int data;
 	struct node*link;
 };
-struct node*header;
+struct node*header1;
+struct node*header2;
+struct node*headercon;
+struct node*headermerge;
 struct node*create_sll(struct node*);
 struct node*display(struct node*);
-void node_count(struct node*);
-void min_element(struct node*);
+struct node*merging(struct node*);
+struct node*concatination(struct node*,struct node*,struct node*);
 int main()
 {
 	int ch;
-	while(ch!=5)
+	while(ch!=7)
 	{
 		printf("main menu\n");
-		printf("1.create list\n2.display\n3.node count\n4.minimum element\n5.exit\n");
+		printf("1.create 1st list\n2.display 1st list\n3.create 2nd list\n4.display 2nd listl\n5.merge 2 lists\n6.display merged list\n7.exit\n");
 		printf("enter your ch:\n");
 		scanf("%d",&ch);
 		switch(ch)
 		{
-			case 1:header=create_sll(header);
+			case 1:header1=create_sll(header1);
 			break;
-			case 2:header=display(header);
+			case 2:header1=display(header1);
 			break;
-			case 3:node_count(header);
+			case 3:header2=create_sll(header2);
 			break;
-			case 4:min_element(header);
+			case 4:header2=display(header2);
 			break;
-			case 5:exit(0);
+			case 5:headermerge=merging(headermerge);
+			break;
+			case 6:headermerge=display(headermerge);
+			break;
+			case 7:exit(0);
 			default:
 				printf("invalid ch\n");
 		}
@@ -86,46 +93,39 @@ struct node*display(struct node*header)
 	}
 	return header;
 }
-void node_count(struct node*header)
+struct node*merging(struct node*headermerge)
 {
-	int count=0;
-	struct node*ptr;
-	if(header==NULL)
-	{
-		printf("empty list\n");
-	}
-	else
-	{
-		ptr=header;
-		while(ptr!=NULL)
+	int temp;
+	struct node*ptr1,*ptr2;
+	headermerge=concatination(header1,header2,headercon);
+		ptr1=headermerge;
+		while(ptr1->link!=NULL)
 		{
-			count++;
-			ptr=ptr->link;
-		}
-	}
-	printf("the no of nodes in this list:%d\n",count);
-}
-void min_element(struct node*header)
-{
-	int min;
-	struct node*ptr;
-	if(header==NULL)
-	{
-		printf("empty list\n");
-	}
-	else
-	{
-		ptr=header;
-		min=ptr->data;
-		ptr=ptr->link;
-		while(ptr!=NULL)
-		{
-			if(ptr->data<min)
+			ptr2=ptr1->link;
+			while(ptr2!=NULL)
 			{
-				min=ptr->data;
+				if(ptr1->data>ptr2->data)
+				{
+					temp=ptr1->data;
+					ptr1->data=ptr2->data;
+					ptr2->data=temp;
+				}
+				ptr2=ptr2->link;
 			}
-			ptr=ptr->link;
+			ptr1=ptr1->link;
 		}
+	printf("list merged\n");
+	return headermerge;
+}
+struct node*concatination(struct node*header1,struct node*header2,struct node*headercon)
+{
+	struct node*ptr;
+	ptr=header1;
+	while(ptr->link!=NULL)
+	{
+		ptr=ptr->link;
 	}
-	printf("min element is:%d\n",min);
+	ptr->link=header2;
+	headercon=header1;
+	return headercon;
 }

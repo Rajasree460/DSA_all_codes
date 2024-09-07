@@ -8,16 +8,16 @@ struct node{
 struct node*header;
 struct node*create_sll(struct node*);
 struct node*display(struct node*);
-void node_count(struct node*);
-void min_element(struct node*);
+void node_count();
+void min_element();
 int main()
 {
 	int ch;
 	while(ch!=5)
 	{
 		printf("main menu\n");
-		printf("1.create list\n2.display\n3.node count\n4.minimum element\n5.exit\n");
-		printf("enter your ch:\n");
+		printf("1.create list\n2.display\n3.count no of nodes in the sll\n4.minimum element of the sll\n5.exit\n");
+		printf("enter your choice\n");
 		scanf("%d",&ch);
 		switch(ch)
 		{
@@ -25,13 +25,13 @@ int main()
 			break;
 			case 2:header=display(header);
 			break;
-			case 3:node_count(header);
+			case 3:node_count();
 			break;
-			case 4:min_element(header);
+			case 4:min_element();
 			break;
 			case 5:exit(0);
 			default:
-				printf("invalid ch\n");
+				printf("invalid choice\n");
 		}
 	}
 }
@@ -40,11 +40,11 @@ struct node*create_sll(struct node*header)
 	int item;
 	struct node*new_node,*ptr;
 	printf("enter -1 to end\n");
-	printf("enter the data to be inserted:\n");
+	printf("enter your data:\n");
 	scanf("%d",&item);
 	while(item!=-1)
 	{
-		new_node=(struct node*)malloc(sizeof(struct node));
+		new_node=(struct node*)malloc(sizeof(struct node*));
 		new_node->data=item;
 		if(header==NULL)
 		{
@@ -61,7 +61,7 @@ struct node*create_sll(struct node*header)
 			ptr->link=new_node;
 			new_node->link=NULL;
 		}
-		printf("enter the data to be inserted:\n");
+		printf("enter your data:\n");
 	scanf("%d",&item);
 	}
 	printf("list created\n");
@@ -69,63 +69,42 @@ struct node*create_sll(struct node*header)
 }
 struct node*display(struct node*header)
 {
+	printf("the list is below\n");
 	struct node*ptr;
-	if(header==NULL)
+	ptr=header;
+	while(ptr!=NULL)
 	{
-		printf("empty list\n");
-	}
-	else
-	{
-		printf("the list is below\n");
-		ptr=header;
-		while(ptr!=NULL)
-		{
-			printf("%d\n",ptr->data);
-			ptr=ptr->link;
-		}
+		printf("%d\n",ptr->data);
+		ptr=ptr->link;
 	}
 	return header;
 }
-void node_count(struct node*header)
+void node_count()
 {
 	int count=0;
 	struct node*ptr;
-	if(header==NULL)
+	ptr=header;
+	while(ptr!=NULL)
 	{
-		printf("empty list\n");
+		++count;
+		ptr=ptr->link;
 	}
-	else
-	{
-		ptr=header;
-		while(ptr!=NULL)
-		{
-			count++;
-			ptr=ptr->link;
-		}
-	}
-	printf("the no of nodes in this list:%d\n",count);
+	printf("the no of nodes i that sll:%d\n",count);
 }
-void min_element(struct node*header)
+void min_element()
 {
 	int min;
 	struct node*ptr;
-	if(header==NULL)
+	ptr=header;
+	min=ptr->data;
+	ptr=ptr->link;
+	while(ptr!=NULL)
 	{
-		printf("empty list\n");
-	}
-	else
-	{
-		ptr=header;
-		min=ptr->data;
-		ptr=ptr->link;
-		while(ptr!=NULL)
+		if(ptr->data<min)
 		{
-			if(ptr->data<min)
-			{
-				min=ptr->data;
-			}
-			ptr=ptr->link;
+			min=ptr->data;
 		}
+		ptr=ptr->link;
 	}
-	printf("min element is:%d\n",min);
+	printf("the minimum element of that sll is:%d\n",min);
 }

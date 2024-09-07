@@ -48,11 +48,11 @@ void insert_queue()
 			front=1;
 		}
 		rear++;
-		printf("enter the data to be inserted\n");
+		printf("enter the data to be inserted:\n");
 		scanf("%d",&item);
 		queue[rear]=item;
 	}
-	printf("item inserted\n");
+	printf("data inserted\n");
 }
 void delete_queue()
 {
@@ -68,7 +68,7 @@ void delete_queue()
 		{
 			front=0;
 			rear=0;
-			printf("the only element %d deleted\n",x);
+			printf("the only node %d deleted\n",x);
 		}
 		else
 		{
@@ -86,7 +86,7 @@ void display_queue()
 	}
 	else
 	{
-		printf("the queue is below\n");
+		printf("queue is below\n");
 		for(i=front;i<=rear;i++)
 		{
 			printf("%d\n",queue[i]);
