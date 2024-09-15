@@ -1,18 +1,18 @@
 //ks
 #include<stdio.h>
 
-int n=0,m=0;
+int m=0,n=0;
 
 void knapsack(float w[],float p[],float cal[]);
 
 int main(){
-	int i;
 	float w[20],p[20],cal[20];
+	int i;
 	printf("enter the max weight of ks: ");
 	scanf("%d",&m);
 	printf("\nenter the no. of objs: ");
 	scanf("%d",&n);
-	printf("\nenter weights & profits");
+	printf("\nenter the weights & profits");
 	for(i=0;i<n;i++){
 		printf("\nweight[%d]: ",i+1);
 		scanf("%f",&w[i]);
@@ -59,20 +59,20 @@ void knapsack(float w[],float p[],float cal[]){
 			m-=w[i];
 			total_profit+=p[i];
 			selected_items[ct++]=i;
-		}
-		else{
+		}else{
 			break;
 		}
 	}
 	
-	if(m>0 && i<n){
-		float fraction=(float) m/w[i];
-		total_profit+=fraction*p[i];
-		selected_items[ct]=i;
-	}
+		if(m>0 && i<n){
+			float fraction=(float) m/w[i];
+			total_profit+=fraction*p[i];
+			selected_items[ct]=i;
+		}
+	
 	printf("\nselected items\n");
 	for(i=0;i<ct;i++){
-		printf("item_id:%d, weight:%.2f, profit:%.2f\n",selected_items[i]+1,w[selected_items[i]],p[selected_items[i]]);
+		printf("item_id:%d, weifgt:%.2f, profit:%.2f\n",selected_items[i]+1,w[selected_items[i]],p[selected_items[i]]);
 	}
-	printf("\nmax profit:%.2f\n",total_profit);
+	printf("\n\ntotal profit: %.2f\n",total_profit);
 }

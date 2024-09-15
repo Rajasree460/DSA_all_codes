@@ -1,4 +1,4 @@
-//ks
+//ks 
 #include<stdio.h>
 
 int n=0,m=0;
@@ -12,7 +12,7 @@ int main(){
 	scanf("%d",&m);
 	printf("\nenter the no. of objs: ");
 	scanf("%d",&n);
-	printf("\nenter weights & profits");
+	printf("\nenter the weights & profits");
 	for(i=0;i<n;i++){
 		printf("\nweight[%d]: ",i+1);
 		scanf("%f",&w[i]);
@@ -53,7 +53,6 @@ void knapsack(float w[],float p[],float cal[]){
 	for(i=0;i<n;i++){
 		printf("%.3f\t%.3f\t%.3f\n",w[i],p[i],cal[i]);
 	}
-	
 	for(i=0;i<n;i++){
 		if(m>0 && w[i]<=m){
 			m-=w[i];
@@ -72,7 +71,7 @@ void knapsack(float w[],float p[],float cal[]){
 	}
 	printf("\nselected items\n");
 	for(i=0;i<ct;i++){
-		printf("item_id:%d, weight:%.2f, profit:%.2f\n",selected_items[i]+1,w[selected_items[i]],p[selected_items[i]]);
+		printf("item_id: %d, weight: %.2f, profit: %.2f\n",selected_items[i]+1,w[selected_items[i]],p[selected_items[i]]);
 	}
-	printf("\nmax profit:%.2f\n",total_profit);
+	printf("\ntotal profit: %.2f\n",total_profit);
 }
